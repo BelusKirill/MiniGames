@@ -18,6 +18,9 @@ def register_all_handlers(dp):
     Функция регистрации обработчиков телеграм бота
     Возвращает: None
     """
+    from tgbot.handlers.user import register_user
+
+    register_user(dp)
 
 
 async def on_startup(dispatcher):
@@ -36,9 +39,10 @@ async def on_startup(dispatcher):
         register_all_filters(dispatcher)
         register_all_handlers(dispatcher)
         await dispatcher.bot.set_my_commands([
-            BotCommand('start', 'Перезапустить 🔄')
+            BotCommand('start', 'Перезапустить 🔄'),
+            BotCommand('rps', 'Камень, ножницы, бумага 🪨✂️📄')
         ])
-        logger.info(f'Вкрсия postgrest: {await db.get_vdb()}')
+        logger.info(f'Вeрсия postgrest: {await db.get_vdb()}')
 
 
 async def on_shutdown(dispatcher):

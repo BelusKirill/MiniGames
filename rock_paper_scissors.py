@@ -3,7 +3,7 @@ from random import randint
 def user_interface(options) -> int:
     '''
     Функция представления опций и запроса на выбор опции игроку
-    Возращает: int
+    Возвращает: int
     '''
     for index,option in enumerate(options):
         print(f'{index} = {option}')
@@ -15,7 +15,7 @@ def user_interface(options) -> int:
 def computer_choice(content) -> int:
     '''
     Функция иметирует выбор компьютера, случайный выбор на основе доступных опреаций
-    Возращает: случайный int
+    Возвращает: случайный int
     '''
     computer_chose = randint(0,len(content)-1)
     return computer_chose
@@ -24,7 +24,7 @@ def computer_choice(content) -> int:
 def check_results(choices, player, computer) -> str:
     '''
     Функция которая проверяет кто выйграл
-    Возращает: str
+    Возвращает: str
     '''
     if player == computer:
         return 'Ничья'
@@ -36,7 +36,7 @@ def check_results(choices, player, computer) -> str:
 def play():
     """
     Функция логики игры
-    Возращает: None
+    Возвращает: None
     """
 
     print('''

@@ -31,12 +31,14 @@ async def on_startup(dispatcher):
         format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
     )
     logger.info(f"Starting bot {datetime.now()}")
-    
-    register_all_filters(dispatcher)
-    register_all_handlers(dispatcher)
-    await dispatcher.bot.set_my_commands([
-        BotCommand('start', 'Перезапустить 🔄')
-    ])
+    from loader import db
+    if await db.create_pool():
+        register_all_filters(dispatcher)
+        register_all_handlers(dispatcher)
+        await dispatcher.bot.set_my_commands([
+            BotCommand('start', 'Перезапустить 🔄')
+        ])
+        logger.info(f'Вкрсия postgrest: {await db.get_vdb()}')
 
 
 async def on_shutdown(dispatcher):
@@ -44,12 +46,14 @@ async def on_shutdown(dispatcher):
     Функция завершения бота
     Возвращает: None
     """
+    from loader import db
     logging.warning('Shutting down..')
     await dispatcher.storage.close()
     await dispatcher.storage.wait_closed()
 
     logging.warning('Bye!')
     await dispatcher.bot.close()
+    await db.close()
 
 
 if __name__ == '__main__':

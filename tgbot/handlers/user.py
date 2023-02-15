@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import Message, ChatType, CallbackQuery
 
 from loader import bot, db, config
-from tgbot.keyboards.inline import keyboard_start_user, keyboard_menu_game_rps
+from tgbot.keyboards.inline import keyboard_start_user, keyboard_menu_game_rsp
 
 
 async def user_start(message: Message, state: FSMContext):
@@ -15,14 +15,14 @@ async def user_start(message: Message, state: FSMContext):
     await state.finish()
     await message.answer("Список мини игр", reply_markup=keyboard_start_user())
 
-async def menu_game_rps(callback_query: CallbackQuery, state: FSMContext):
+async def menu_game_rsp(callback_query: CallbackQuery, state: FSMContext):
     """
     Обработчик меню игры Камень, ножницы, бумага
     Возвращает: None
     """
     await state.finish()
     await bot.delete_message(callback_query.message.chat.id, callback_query.message.message_id)
-    await callback_query.message.answer("Камень, ножницы, бумага", reply_markup=keyboard_menu_game_rps())
+    await callback_query.message.answer("Камень, ножницы, бумага", reply_markup=keyboard_menu_game_rsp())
 
 
 def register_user(dp: Dispatcher):
@@ -32,4 +32,4 @@ def register_user(dp: Dispatcher):
     Возвращает: None
     """
     dp.register_message_handler(user_start, commands=["start"], chat_type=ChatType.PRIVATE, state="*")
-    dp.register_callback_query_handler(menu_game_rps, lambda c: c.data and c.data == 'game_rps', chat_type=ChatType.PRIVATE)
+    dp.register_callback_query_handler(menu_game_rsp, lambda c: c.data and c.data == 'game_rsp', chat_type=ChatType.PRIVATE)

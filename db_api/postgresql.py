@@ -86,7 +86,18 @@ class Database:
     async def get_vdb(self):
         """
         Функция возвращает версию db
-        Возвращает: Coroutine
+        Возвращает: Coroutine[str]
         """
         sql = "SELECT version()"
         return await self.execute(sql, fetchval=True)  
+
+    async def create_users_table(self):
+        """
+        Функция создает таблицу users, если ее еще нет
+        Возвращает: Coroutine[None]
+        """
+        sql = "CREATE TABLE IF NOT EXISTS users ( " \
+                "id bigserial PRIMARY KEY, " \
+                "id_telegram varchar(255) NOT NULL UNIQUE, " \
+                "name varchar(255))"
+        return await self.execute(sql, execute=True)    

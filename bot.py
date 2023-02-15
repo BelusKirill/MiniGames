@@ -36,11 +36,12 @@ async def on_startup(dispatcher):
     logger.info(f"Starting bot {datetime.now()}")
     from loader import db
     if await db.create_pool():
+        await db.create_users_table()
         register_all_filters(dispatcher)
         register_all_handlers(dispatcher)
         await dispatcher.bot.set_my_commands([
             BotCommand('start', 'Перезапустить 🔄'),
-            BotCommand('rps', 'Камень, ножницы, бумага 🪨✂️📄')
+            BotCommand('rsp', 'Камень, ножницы, бумага 🪨✂️📄')
         ])
         logger.info(f'Вeрсия postgrest: {await db.get_vdb()}')
 
